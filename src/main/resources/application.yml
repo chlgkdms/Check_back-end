@@ -1,13 +1,13 @@
 server:
   servlet:
     context-path: /check
-
+  port: 8081
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${db.url}
-    username: ${db.username}
-    password: ${db.password}
+    url: ${DB_URL}
+    username: ${USERNAME}
+    password: ${PASSWORD}
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -18,3 +18,10 @@ spring:
 
   jackson:
     property-naming-strategy: SNAKE_CASE
+
+jwt:
+  header: ${JWT_HEADER}
+  prefix: ${JWT_PREFIX}
+  secret_key: ${SECRET_KEY}
+  access_exp: ${ACCESS_EXP}
+  refresh_exp: ${REFRESH_EXP}
