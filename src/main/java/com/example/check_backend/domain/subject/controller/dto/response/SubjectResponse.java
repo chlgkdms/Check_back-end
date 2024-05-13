@@ -10,5 +10,11 @@ import lombok.NoArgsConstructor;
 public class SubjectResponse {
     private Long id;
     private String subjectName;
-    private String writer;
+    private User writer;
+
+    public SubjectResponse(Subject subject) {
+        this.id = subject.getId();
+        this.subjectName = subject.getName();
+        this.writer = subject.getUser();
+    }
 }
