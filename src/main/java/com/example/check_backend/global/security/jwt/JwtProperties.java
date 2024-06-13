@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class JwtProperties {
     private final String header;
     private final String prefix;
-    private final String secret;
-    private final Long accessExpiration;
-    private final Long refreshExpiration;
+    private final String secretKey;
+    private final Long accessExp;
+    private final Long refreshExp;
 }
