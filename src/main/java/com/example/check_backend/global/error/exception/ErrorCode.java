@@ -8,6 +8,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
+    // subject
+    SUBJECT_NOT_FOUND(404, "Subject not found."),
+
 
     // jwt
     EXPIRED_TOKEN(401, "Expired token"),
