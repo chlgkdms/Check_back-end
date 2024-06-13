@@ -1,6 +1,6 @@
 package com.example.check_backend.domain.subject.entity;
 
-import com.example.check_backend.domain.subject.controller.dto.request.SubjectRequest;
+import com.example.check_backend.domain.subject.controller.dto.request.CreateSubjectRequest;
 import com.example.check_backend.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,14 +35,9 @@ public class Subject {
     )
     private String name;
 
-    public Subject(SubjectRequest request) {
-        this.name = request.getSubjectName();
-        this.user = request.getUsername();
-    }
-
-    public void update(SubjectRequest request) {
-        this.id = request.getUsername().getId();
-        this.name = request.getSubjectName();
-        this.user = request.getUsername();
+    @Builder
+    public Subject(User user, String name) {
+        this.user = user;
+        this.name = name;
     }
 }

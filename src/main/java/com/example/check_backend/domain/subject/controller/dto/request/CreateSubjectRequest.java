@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class SubjectRequest {
+public class CreateSubjectRequest {
     private String subjectName;
-    private User username;
 }
