@@ -5,7 +5,7 @@ import com.example.check_backend.domain.user.controller.dto.request.UserLoginReq
 import com.example.check_backend.domain.user.controller.dto.request.UserSignUpRequest;
 import com.example.check_backend.domain.user.entity.User;
 import com.example.check_backend.domain.user.entity.repository.UserRepository;
-import com.example.check_backend.domain.user.service.exception.user.AccountIdNotFoundException;
+import com.example.check_backend.domain.user.service.exception.user.UserNotFoundException;
 import com.example.check_backend.domain.user.service.exception.user.PasswordMismatchException;
 import com.example.check_backend.global.security.jwt.JwtProperties;
 import com.example.check_backend.global.security.jwt.JwtTokenProvider;
@@ -35,17 +35,13 @@ public class UserService {
     @Transactional
     public TokenResponse login(UserLoginRequest request) {
         User user = userRepository.findByAccountId(request.getAccountId())
-                .orElseThrow(() -> AccountIdNotFoundException.EXCEPTION);
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        if (!request.getPassword().equals(user.getPassword())) {
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw PasswordMismatchException.EXCEPTION;
         }
 
-        return TokenResponse
-                .builder()
-                .accessToken(jwtTokenProvider.createAccessToken(user.getAccountId()))
-                .expiredAt(java.time.LocalDateTime.now()
-                        .plusSeconds(jwtProperties.getAccessExpiration()))
-                .build();
+        return jwtTokenProvider.getAccessToken(user.getAccountId());
     }
 }

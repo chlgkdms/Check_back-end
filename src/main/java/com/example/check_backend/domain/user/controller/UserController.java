@@ -1,5 +1,6 @@
 package com.example.check_backend.domain.user.controller;
 
+import com.example.check_backend.domain.user.controller.dto.reponse.TokenResponse;
 import com.example.check_backend.domain.user.controller.dto.request.UserLoginRequest;
 import com.example.check_backend.domain.user.controller.dto.request.UserSignUpRequest;
 import com.example.check_backend.domain.user.service.UserService;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public void login(@Valid @RequestBody UserLoginRequest request) {
-        userService.login(request);
+    public TokenResponse login(@Valid @RequestBody UserLoginRequest request) {
+        return userService.login(request);
     }
 }
