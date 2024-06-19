@@ -42,6 +42,6 @@ public class UserService {
             throw PasswordMismatchException.EXCEPTION;
         }
 
-        return jwtTokenProvider.getAccessToken(user.getAccountId());
+        return jwtTokenProvider.getToken(user.getAccountId());
     }
 }

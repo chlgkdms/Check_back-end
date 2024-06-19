@@ -1,7 +1,3 @@
-server:
-  servlet:
-    context-path: /check
-  port: 8081
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,4 +20,3 @@ jwt:
   prefix: ${JWT_PREFIX}
   secret_key: ${SECRET_KEY}
   access_exp: ${ACCESS_EXP}
-  refresh_exp: ${REFRESH_EXP}
