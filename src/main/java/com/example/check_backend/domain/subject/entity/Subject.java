@@ -1,6 +1,5 @@
 package com.example.check_backend.domain.subject.entity;
 
-import com.example.check_backend.domain.subject.controller.dto.request.CreateSubjectRequest;
 import com.example.check_backend.domain.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,4 +39,5 @@ public class Subject {
         this.user = user;
         this.name = name;
     }
+
 }

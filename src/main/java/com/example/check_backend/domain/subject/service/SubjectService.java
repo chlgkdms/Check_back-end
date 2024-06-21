@@ -1,25 +1,33 @@
 package com.example.check_backend.domain.subject.service;
 
+import com.example.check_backend.domain.checklist.entity.Checklist;
+import com.example.check_backend.domain.checklist.entity.repository.ChecklistRepository;
 import com.example.check_backend.domain.subject.controller.dto.request.CreateSubjectRequest;
+import com.example.check_backend.domain.subject.controller.dto.response.SubjectDetailsResponse;
+import com.example.check_backend.domain.subject.controller.dto.response.SubjectListElement;
 import com.example.check_backend.domain.subject.controller.dto.response.SubjectResponse;
 import com.example.check_backend.domain.subject.entity.Subject;
 import com.example.check_backend.domain.subject.entity.repository.SubjectRepository;
 import com.example.check_backend.domain.subject.exception.SubjectNotFoundException;
 import com.example.check_backend.domain.user.entity.User;
 import com.example.check_backend.domain.user.facade.UserFacade;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RequiredArgsConstructor
 @Service
-@AllArgsConstructor
 public class SubjectService {
     private final SubjectRepository subjectRepository;
     private final UserFacade userFacade;
+    private final ChecklistRepository checklistRepository;
 
     @Transactional
     public void createSubject(CreateSubjectRequest request) {
-        User user  = userFacade.getCurrentUser();
+        User user = userFacade.getCurrentUser();
 
         Subject subject = Subject.builder()
                 .user(user)
@@ -29,19 +37,34 @@ public class SubjectService {
         subjectRepository.save(subject);
     }
 
-    public SubjectResponse findOneSubject(Long subjectId) {
+    public SubjectDetailsResponse findOneSubject(Long subjectId) {
+        List<Checklist> checkList = checklistRepository.findAll();
+
         Subject subject = subjectRepository.findById(subjectId).orElseThrow(
                 () -> SubjectNotFoundException.EXCEPTION
         );
-        return new SubjectResponse(subject);
+        return new SubjectDetailsResponse(
+                subject.getId(),
+                subject.getName(),
+                checkList
+        );
     }
 
-//    @Transactional
-//    public Long updateSubject(Long subjectId, CreateSubjectRequest subjectRequest) {
-//        Subject subject = subjectRepository.findById(subjectId).orElseThrow(
-//                () -> SubjectNotFoundException.EXCEPTION
-//        );
-//        subject.update(subjectRequest);
-//        return subject.getId();
-//    }
+    @Transactional(readOnly = true)
+    public SubjectResponse findAllSubjects() {
+        List<SubjectListElement> subjectListElementList = subjectRepository.findAll()
+                .stream()
+                .map( subject -> {
+                    User user = userFacade.getUserById(subject.getUser().getId());
+
+                    return SubjectListElement.builder()
+                            .id(subject.getId())
+                            .subjectName(subject.getName())
+                            .writer(user.getNickname())
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return new SubjectResponse(subjectListElementList);
+    }
 }
