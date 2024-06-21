@@ -19,7 +19,10 @@ public class UserFacade {
 
     public User getCurrentUser() {
         String accountId = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(accountId);
         return getUserByAccountId(accountId);
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> UserNotFoundException.EXCEPTION);
     }
 }
