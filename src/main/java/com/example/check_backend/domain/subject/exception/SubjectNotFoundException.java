@@ -6,7 +6,7 @@ import com.example.check_backend.global.error.exception.ErrorCode;
 public class SubjectNotFoundException extends BusinessException {
     public static final BusinessException EXCEPTION = new SubjectNotFoundException();
 
-    public SubjectNotFoundException() {
+    private SubjectNotFoundException() {
         super(ErrorCode.SUBJECT_NOT_FOUND);
     }
 }

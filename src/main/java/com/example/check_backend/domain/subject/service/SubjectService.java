@@ -1,6 +1,6 @@
 package com.example.check_backend.domain.subject.service;
 
-import com.example.check_backend.domain.checklist.entity.Checklist;
+import com.example.check_backend.domain.checklist.controller.dto.response.CheckListElement;
 import com.example.check_backend.domain.checklist.entity.repository.ChecklistRepository;
 import com.example.check_backend.domain.subject.controller.dto.request.CreateSubjectRequest;
 import com.example.check_backend.domain.subject.controller.dto.response.SubjectDetailsResponse;
@@ -29,42 +29,31 @@ public class SubjectService {
     public void createSubject(CreateSubjectRequest request) {
         User user = userFacade.getCurrentUser();
 
-        Subject subject = Subject.builder()
-                .user(user)
-                .name(request.getSubjectName())
-                .build();
+        Subject subject = Subject.builder().user(user).name(request.getSubjectName()).build();
 
         subjectRepository.save(subject);
     }
 
+    @Transactional(readOnly = true)
     public SubjectDetailsResponse findOneSubject(Long subjectId) {
-        List<Checklist> checkList = checklistRepository.findAll();
+        Subject subject = subjectRepository.findById(subjectId).orElseThrow(() -> SubjectNotFoundException.EXCEPTION);
 
-        Subject subject = subjectRepository.findById(subjectId).orElseThrow(
-                () -> SubjectNotFoundException.EXCEPTION
-        );
-        return new SubjectDetailsResponse(
-                subject.getId(),
-                subject.getName(),
-                checkList
-        );
+        List<CheckListElement> checkElementList = checklistRepository.findAllBySubjectId(subjectId).stream().map(checklist -> {
+            return CheckListElement.builder().date(checklist.getDate()).title(checklist.getTitle()).subject(subject).isSaved(checklist.getIsSaved()).build();
+        }).collect(Collectors.toList());
+
+        return new SubjectDetailsResponse(checkElementList);
     }
 
     @Transactional(readOnly = true)
     public SubjectResponse findAllSubjects() {
-        List<SubjectListElement> subjectListElementList = subjectRepository.findAll()
-                .stream()
-                .map( subject -> {
-                    User user = userFacade.getUserById(subject.getUser().getId());
+        List<SubjectListElement> subjectListElementList = subjectRepository.findAll().stream().map(subject -> {
+            User user = userFacade.getUserById(subject.getUser().getId());
 
-                    return SubjectListElement.builder()
-                            .id(subject.getId())
-                            .subjectName(subject.getName())
-                            .writer(user.getNickname())
-                            .build();
-                })
-                .collect(Collectors.toList());
+            return SubjectListElement.builder().id(subject.getId()).subjectName(subject.getName()).writer(user.getNickname()).build();
+        }).collect(Collectors.toList());
 
         return new SubjectResponse(subjectListElementList);
     }
 }
+

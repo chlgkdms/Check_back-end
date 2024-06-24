@@ -1,7 +1,6 @@
 package com.example.check_backend.domain.checklist_content.entity;
 
-import com.example.check_backend.domain.checklist.entity.Checklist;
-import com.example.check_backend.domain.subject.entity.Subject;
+import com.example.check_backend.domain.checklist.entity.CheckList;
 import com.example.check_backend.domain.user.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,18 +20,18 @@ import lombok.NoArgsConstructor;
 @Entity
 public class ChecklistContent {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "checklist_id")
-    private Checklist checklist;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id")
-    private Subject subject;
+    @JoinColumn(name = "check_list_id")
+    private CheckList checkList;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    private String content;
+
+    private Boolean isCleared;
 }

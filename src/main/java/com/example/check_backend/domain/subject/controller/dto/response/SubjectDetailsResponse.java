@@ -1,15 +1,15 @@
 package com.example.check_backend.domain.subject.controller.dto.response;
 
-import com.example.check_backend.domain.checklist.entity.Checklist;
+import com.example.check_backend.domain.checklist.controller.dto.response.CheckListElement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public class SubjectDetailsResponse {
-    private Long id;
-    private String subjectName;
-    private List<Checklist> checklist;
+//    private final Long id;
+//    private final String subjectName;
+    private List<CheckListElement> checklist;
 }

@@ -12,6 +12,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,16 +21,16 @@ import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "tbl_checklist")
+@Table(name = "tbl_check_list")
 @Entity
-public class Checklist {
+public class CheckList {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
-    private Subject subjectId;
+    private Subject subject;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -42,4 +44,14 @@ public class Checklist {
 
     @Column(columnDefinition = "TINYINT(1)", nullable = false)
     private Boolean isSaved;
+
+    @Builder
+    public CheckList(Subject subject, User user, String title, LocalDate date, Boolean isSaved) {
+        this.subject = subject;
+        this.user = user;
+        this.title = title;
+        this.date = date;
+        this.isSaved = isSaved;
+    }
+
 }

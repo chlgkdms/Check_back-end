@@ -23,6 +23,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
     public void signUp(@RequestBody UserSignUpRequest request) {
+        System.out.println(request.getAccountId());
         userService.userSignUp(request);
     }
 
