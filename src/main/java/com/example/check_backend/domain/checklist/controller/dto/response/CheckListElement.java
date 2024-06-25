@@ -10,9 +10,10 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class CheckListElement {
-    private final Subject subject;
-    private final User user;
+    private final Long id;
+    private final String nickname;
     private final String title;
     private final LocalDate date;
     private final Boolean isSaved;
+
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class SubjectDetailsResponse {
-//    private final Long id;
-//    private final String subjectName;
+    private final Long id;
+    private final String subjectName;
     private List<CheckListElement> checklist;
 }

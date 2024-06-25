@@ -39,10 +39,18 @@ public class SubjectService {
         Subject subject = subjectRepository.findById(subjectId).orElseThrow(() -> SubjectNotFoundException.EXCEPTION);
 
         List<CheckListElement> checkElementList = checklistRepository.findAllBySubjectId(subjectId).stream().map(checklist -> {
-            return CheckListElement.builder().date(checklist.getDate()).title(checklist.getTitle()).subject(subject).isSaved(checklist.getIsSaved()).build();
+            return CheckListElement.builder()
+                    .date(checklist.getDate())
+                    .nickname(checklist.getUser().getNickname())
+                    .isSaved(checklist.getIsSaved())
+                    .title(checklist.getTitle()
+                    ).build();
         }).collect(Collectors.toList());
 
-        return new SubjectDetailsResponse(checkElementList);
+        return new SubjectDetailsResponse(
+                subject.getId(),
+                subject.getUser().getNickname(),
+                checkElementList);
     }
 
     @Transactional(readOnly = true)
