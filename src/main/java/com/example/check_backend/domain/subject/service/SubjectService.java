@@ -49,7 +49,7 @@ public class SubjectService {
 
         return new SubjectDetailsResponse(
                 subject.getId(),
-                subject.getUser().getNickname(),
+                subject.getName(),
                 checkElementList);
     }
 
