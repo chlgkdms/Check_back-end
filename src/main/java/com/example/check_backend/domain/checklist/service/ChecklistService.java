@@ -3,6 +3,7 @@ package com.example.check_backend.domain.checklist.service;
 import com.example.check_backend.domain.checklist.controller.dto.request.CreateChecklistRequest;
 import com.example.check_backend.domain.checklist.entity.CheckList;
 import com.example.check_backend.domain.checklist.entity.repository.ChecklistRepository;
+import com.example.check_backend.domain.checklist.exception.ChecklistNotFoundException;
 import com.example.check_backend.domain.subject.entity.Subject;
 import com.example.check_backend.domain.subject.entity.repository.SubjectRepository;
 import com.example.check_backend.domain.subject.exception.SubjectNotFoundException;
@@ -18,22 +19,12 @@ import java.time.LocalDate;
 @Service
 public class ChecklistService {
     private final ChecklistRepository checklistRepository;
-    private final SubjectRepository subjectRepository;
-    private final UserFacade userFacade;
 
     @Transactional
-    public void createChecklist(Long subjectId, CreateChecklistRequest request) {
-        User user = userFacade.getCurrentUser();
-        Subject subject = subjectRepository.findById(subjectId).orElseThrow(() -> SubjectNotFoundException.EXCEPTION);
+    public void updateSave(Long checklistId) {
+        CheckList checkList = checklistRepository.findById(checklistId)
+                .orElseThrow(() -> ChecklistNotFoundException.EXCEPTION);
 
-        checklistRepository.save(
-                CheckList.builder()
-                        .subject(subject)
-                        .user(user)
-                        .title(request.getTitle())
-                        .date(LocalDate.now())
-                        .isSaved(false)
-                        .build()
-        );
+        checkList.updateIsSaved();
     }
 }

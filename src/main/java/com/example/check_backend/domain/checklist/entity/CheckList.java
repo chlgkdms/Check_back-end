@@ -54,4 +54,8 @@ public class CheckList {
         this.isSaved = isSaved;
     }
 
+    public void updateIsSaved() {
+        this.isSaved = true;
+    }
+
 }

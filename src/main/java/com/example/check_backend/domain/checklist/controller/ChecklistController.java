@@ -4,6 +4,7 @@ import com.example.check_backend.domain.checklist.controller.dto.request.CreateC
 import com.example.check_backend.domain.checklist.service.ChecklistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,9 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChecklistController {
     private final ChecklistService checklistService;
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/create/{subject-id}")
-    public void createChecklist(@RequestBody CreateChecklistRequest request, @PathVariable(name = "subject-id") Long subjectId) {
-        checklistService.createChecklist(subjectId, request);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/update/{checklist-id}")
+    public void updateSaved(@PathVariable(name = "checklist-id")Long checkListId) {
+        checklistService.updateSave(checkListId);
     }
+
 }

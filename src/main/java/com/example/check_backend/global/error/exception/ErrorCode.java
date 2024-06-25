@@ -11,10 +11,15 @@ public enum ErrorCode {
     // subject
     SUBJECT_NOT_FOUND(404, "Subject not found."),
 
-
     // jwt
     EXPIRED_TOKEN(401, "Expired token"),
     INVALID_TOKEN(401, "Invalid token"),
+
+    // checkListContent
+    CHECKLIST_CONTENT_NOT_FOUND(404, "Check list content not found."),
+
+    // checklist
+    CHECKLIST_NOT_FOUND(404, "Checklist not found."),
 
     // user
     USER_NOT_FOUND(404, "User not found"),

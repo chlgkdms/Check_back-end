@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,4 +35,13 @@ public class ChecklistContent {
     private String content;
 
     private Boolean isCleared;
+
+    @Builder
+    public ChecklistContent(Long id, CheckList checkList, User user, String content, Boolean isCleared) {
+        this.id = id;
+        this.checkList = checkList;
+        this.user = user;
+        this.content = content;
+        this.isCleared = isCleared;
+    }
 }
