@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,7 +73,9 @@ public class UserService {
                             .id(checkList.getId())
                             .title(checkList.getTitle())
                             .isSaved(checkList.getIsSaved())
-                            .content(checkListContentList)
+                            .checkListContentList(checkListContentList)
+                            .date(checkList.getDate())
+                            .writer(checkList.getUser().getNickname())
                             .build();
                 })
                 .collect(Collectors.toList());
