@@ -25,6 +25,8 @@ public class ChecklistService {
         CheckList checkList = checklistRepository.findById(checklistId)
                 .orElseThrow(() -> ChecklistNotFoundException.EXCEPTION);
 
-        checkList.updateIsSaved();
+        Boolean savedStatus = checkList.getIsSaved().equals(true) ? true : false;
+
+        checkList.updateIsSaved(savedStatus);
     }
 }

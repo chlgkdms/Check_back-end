@@ -54,8 +54,8 @@ public class CheckList {
         this.isSaved = isSaved;
     }
 
-    public void updateIsSaved() {
-        this.isSaved = true;
+    public void updateIsSaved(Boolean savedStatus) {
+        this.isSaved = savedStatus;
     }
 
 }
