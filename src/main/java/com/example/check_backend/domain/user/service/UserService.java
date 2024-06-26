@@ -62,7 +62,7 @@ public class UserService {
     public ProfileSavedCheckListResponse getProfile() {
         User user = userFacade.getCurrentUser();
 
-        List<ProfileSavedCheckListElement> profileList = checklistRepository.findAllByUserId(user.getId()).stream()
+        List<ProfileSavedCheckListElement> profileList = checklistRepository.findAllByUserIdAndIsSaved(user.getId(), true).stream()
                 .filter(checkList -> checkList.getIsSaved())
                 .map(checkList -> {
                     List<String> checkListContentList = checklistContentRepository.findAllByCheckListId(checkList.getId()).stream()
